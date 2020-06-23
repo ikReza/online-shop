@@ -16,6 +16,7 @@ import {
 import { Menu } from "@material-ui/icons";
 import { makeStyles } from "@material-ui/core/styles";
 import Footer from "./Footer";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
   menuSliderContainer: {
@@ -34,6 +35,9 @@ const useStyles = makeStyles(() => ({
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const classes = useStyles();
+
+  const userSignin = useSelector((state) => state.userSignin);
+  const { userInfo } = userSignin;
 
   const sideList = () => (
     <Box
@@ -75,9 +79,22 @@ const Navbar = () => {
             <Button component={Link} to="/cart" className={classes.btn}>
               Cart
             </Button>
-            <Button component={Link} to="/signin" className={classes.btn}>
-              Sign In
-            </Button>
+            {userInfo ? (
+              <Link
+                to="/profile"
+                style={{
+                  textDecoration: "none",
+                  color: "tomato",
+                  fontWeight: "bold",
+                }}
+              >
+                {userInfo.name}
+              </Link>
+            ) : (
+              <Button component={Link} to="/signin" className={classes.btn}>
+                Sign In
+              </Button>
+            )}
           </>
           <Drawer anchor="left" open={isOpen} onClose={() => setIsOpen(false)}>
             {sideList()}

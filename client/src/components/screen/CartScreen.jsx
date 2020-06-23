@@ -15,6 +15,7 @@ import {
   Select,
   MenuItem,
   Hidden,
+  Grid,
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { addToCart, removeFromCart } from "../actions/cartActions";
@@ -111,51 +112,86 @@ const CartScreen = (props) => {
             </TableBody>
           </Table>
         </Hidden>
-        <Hidden smUp>
-          <TableBody>
+      </TableContainer>
+      <Hidden smUp>
+        <Grid container justify="center" style={{ marginTop: "2vh" }}>
+          <Grid item xs={10} style={{ maxHeight: "70vh", overflow: "auto" }}>
             {cartItems.map((item, i) => (
-              <TableRow key={i}>
-                <TableCell component="th" scope="row">
+              <Box
+                key={i}
+                borderTop={1}
+                borderBottom={1}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  padding: "3%",
+                }}
+              >
+                <>
                   <img
                     style={{ height: "10vh", width: "auto" }}
                     src={item.image}
                     alt={item.name}
                   />
-                </TableCell>
-                <TableCell
-                  align="right"
-                  style={{ display: "flex", flexDirection: "column" }}
+                </>
+                <Box
+                  align="left"
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    height: "10vh",
+                    margin: "auto 1vw",
+                  }}
                 >
                   {item.name}
                   <Box component="div">
-                    <FormControl>
-                      <Select
-                        value={item.qty}
-                        onChange={(e) =>
-                          dispatch(addToCart(item.product, e.target.value))
-                        }
-                      >
-                        {[...Array(item.inStock).keys()].map((x) => (
-                          <MenuItem key={x + 1} value={x + 1}>
-                            {x + 1}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
+                    <select
+                      value={item.qty}
+                      onChange={(e) =>
+                        dispatch(addToCart(item.product, e.target.value))
+                      }
+                    >
+                      {[...Array(item.inStock).keys()].map((x) => (
+                        <option key={x + 1} value={x + 1}>
+                          {x + 1}
+                        </option>
+                      ))}
+                    </select>
                     <IconButton onClick={() => removeCartHandle(item.product)}>
                       <Delete />
                     </IconButton>
                   </Box>
-                </TableCell>
-                <TableCell colSpan={2} align="right">
-                  {item.qty * item.price}
-                </TableCell>
-              </TableRow>
+                </Box>
+                <Typography
+                  style={{
+                    fontWeight: "bold",
+                    display: "flex",
+                    alignItems: "center",
+                    margin: "auto 0 auto 2vw",
+                  }}
+                >
+                  ${item.qty * item.price}
+                </Typography>
+              </Box>
             ))}
-          </TableBody>
-        </Hidden>
-      </TableContainer>
-
+          </Grid>
+          <Grid item container xs={10} justify="flex-end">
+            <Typography style={{ marginTop: "1vh" }}>
+              Total Price: ${cartItems.reduce((a, c) => a + c.price * c.qty, 0)}
+            </Typography>
+          </Grid>
+          <Grid item container xs={10} justify="flex-end">
+            <Button
+              variant="contained"
+              size="small"
+              onClick={confirmHandle}
+              style={{ marginTop: "1vh" }}
+            >
+              Confirm Order
+            </Button>
+          </Grid>
+        </Grid>
+      </Hidden>
       <Box
         style={{
           marginTop: "1vh",
@@ -164,9 +200,11 @@ const CartScreen = (props) => {
           justifyContent: "flex-end",
         }}
       >
-        <Button variant="contained" onClick={confirmHandle}>
-          Confirm Order
-        </Button>
+        <Hidden xsDown>
+          <Button variant="contained" size="small" onClick={confirmHandle}>
+            Confirm Order
+          </Button>
+        </Hidden>
       </Box>
     </>
   ) : (
