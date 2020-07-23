@@ -2,13 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Grid, Box, TextField, Button, Typography } from "@material-ui/core";
 import { useDispatch, useSelector } from "react-redux";
-import { signin } from "./actions/userActions";
+import { register } from "../actions/userActions";
 
-const SignIn = (props) => {
+const Register = (props) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const userSignin = useSelector((state) => state.userSignin);
-  const { loading, userInfo, error } = userSignin;
+  const [rePassword, setRePassword] = useState("");
+  const userRegister = useSelector((state) => state.userRegister);
+  const { loading, userInfo, error } = userRegister;
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,8 +22,12 @@ const SignIn = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    dispatch(signin(email, password));
+    if (password !== rePassword) {
+      alert("Password don't match");
+      setRePassword("");
+    } else {
+      dispatch(register(name, email, password));
+    }
   };
 
   return (
@@ -33,12 +39,22 @@ const SignIn = (props) => {
       <Grid item xs={10} sm={7} md={5}>
         <Box component="form" onSubmit={handleSubmit}>
           <Typography align="center" variant="h4" gutterBottom>
-            Sign In
+            Create Account
           </Typography>
           {loading && (
             <Typography variant="subtitle2">Loading. .. ...</Typography>
           )}
           {error && <Typography variant="subtitle2">{error}</Typography>}
+          <TextField
+            fullWidth
+            margin="dense"
+            variant="outlined"
+            label="Name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
           <TextField
             fullWidth
             margin="dense"
@@ -59,17 +75,26 @@ const SignIn = (props) => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <TextField
+            fullWidth
+            margin="dense"
+            variant="outlined"
+            label="Re-Enter Password"
+            type="password"
+            required
+            value={rePassword}
+            onChange={(e) => setRePassword(e.target.value)}
+          />
           <Button
             variant="outlined"
             fullWidth
             type="submit"
             style={{ margin: "1vh auto" }}
           >
-            Sign In
+            Register
           </Button>
-          <Typography align="center">New to Amazona?</Typography>
           <Typography align="center">
-            Create New Account: <Link to="/register">Sign Up</Link>{" "}
+            Already a member? <Link to="/signin">Sign In</Link>{" "}
           </Typography>
         </Box>
       </Grid>
@@ -77,4 +102,4 @@ const SignIn = (props) => {
   );
 };
 
-export default SignIn;
+export default Register;

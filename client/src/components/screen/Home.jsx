@@ -7,6 +7,7 @@ import {
   Typography,
   CircularProgress,
 } from "@material-ui/core";
+import { Rating } from "@material-ui/lab";
 import { makeStyles } from "@material-ui/core/styles";
 
 import { Link } from "react-router-dom";
@@ -14,7 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { listProducts } from "../actions/productActions";
 
 const useStyles = makeStyles(() => ({
-  card: { background: "lightblue", width: "80%", margin: "2vh auto 2vh auto" },
+  card: { background: "whitesmoke", width: "80%", margin: "2vh auto" },
   mediaBox: {
     display: "flex",
     justifyContent: "center",
@@ -84,6 +85,13 @@ const Body = () => {
                 <Typography
                   style={{ fontWeight: "bold" }}
                 >{`$${data.price}`}</Typography>
+                <Box component="fieldset" borderColor="transparent">
+                  <Rating
+                    name="simple-controlled"
+                    value={data.rating}
+                    precision={0.5}
+                  />
+                </Box>
                 <Typography>{data.reviews}</Typography>
               </CardContent>
             </Card>

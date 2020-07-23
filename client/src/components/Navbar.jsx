@@ -38,6 +38,7 @@ const Navbar = () => {
 
   const userSignin = useSelector((state) => state.userSignin);
   const { userInfo } = userSignin;
+  console.log(userInfo);
 
   const sideList = () => (
     <Box
