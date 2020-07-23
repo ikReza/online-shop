@@ -1,0 +1,13 @@
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin: 0 0 100px;
+  overflow-x: hidden;
+  /* bottom = footer height */
+}
+
+@import "home";
+@import "productScreen";

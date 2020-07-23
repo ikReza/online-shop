@@ -1,0 +1,30 @@
+.loading-box {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  margin-top: 10vh;
+}
+
+.card {
+  background-color: whitesmoke !important;
+  width: 80%;
+  margin: 2vh auto;
+}
+
+.mediaBox {
+  display: flex;
+  justify-content: center;
+}
+
+.media {
+  height: 30vh;
+  width: 80%;
+}
+
+.product-name {
+  color: tomato;
+}
+
+.product-price {
+  font-weight: bolder !important;
+}
